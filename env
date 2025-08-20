@@ -5,6 +5,6 @@ MYSQL_PASSWORD=ps_pass
 PS_DEV_MODE=0
 PS_LANGUAGE=es
 PS_COUNTRY=AR
-PS_DOMAIN=shop.tecolab.com.ar
+PS_DOMAIN=url.supercopada.com
 PS_FOLDER=/var/www/html
 PRESTASHOP_VERSION=latest
