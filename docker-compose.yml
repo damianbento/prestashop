@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - frontend  # ← 🔧 ¡Esta línea es la que faltaba!
+
+  prestashop:
+    image: prestashop/prestashop:${PRESTASHOP_VERSION}
+    container_name: prestashop
+    depends_on:
+      - mysql
+    restart: always
+    environment:
+      DB_SERVER: mysql
+      DB_NAME: ${MYSQL_DATABASE}
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      PS_DEV_MODE: ${PS_DEV_MODE}
+      PS_LANGUAGE: ${PS_LANGUAGE}
+      PS_COUNTRY: ${PS_COUNTRY}
+      PS_DOMAIN: ${PS_DOMAIN}
+      PS_FOLDER: ${PS_FOLDER}
+    volumes:
+      - prestashop_data:/var/www/html
+    networks:
+      - frontend
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - prestashop_data:/var/www/html:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - prestashop
+    networks:
+      - frontend
+
+volumes:
+  mysql_data:
+  prestashop_data:
+
+networks:
+  frontend:
