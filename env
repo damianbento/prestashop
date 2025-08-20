@@ -1,0 +1,10 @@
+MYSQL_ROOT_PASSWORD=supersegura1234
+MYSQL_DATABASE=prestashop
+MYSQL_USER=ps_user
+MYSQL_PASSWORD=ps_pass
+PS_DEV_MODE=0
+PS_LANGUAGE=es
+PS_COUNTRY=AR
+PS_DOMAIN=shop.tecolab.com.ar
+PS_FOLDER=/var/www/html
+PRESTASHOP_VERSION=latest
